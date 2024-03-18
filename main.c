@@ -16,12 +16,13 @@ void write_ui(){
       case 'q':
         printw("exiting the terminal");
         refresh();
-        exit(EXIT_SUCCESS);
+        on = false;
         break;
       
       default:
         printw("%c",a);
         refresh();
+        break;
     }
   }
 
