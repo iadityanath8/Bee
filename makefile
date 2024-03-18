@@ -1,13 +1,14 @@
 CC = cc
 
 run:
-	$(CC) -o main main.c -lncurses && ./main
+	$(CC) -Wall -Wextra -Werror -o main main.c -lncurses && ./main
 
 install_linux:
 	sudo apt-get install libncurses5-dev libncursesw5-dev
 
 comp:
-	$(CC) -o main main.c
+	$(CC) -Wall -Wextra -Werror -o main main.c -lncurses
+
 
 clean:
 	rm -rf ./main

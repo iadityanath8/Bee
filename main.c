@@ -1,34 +1,36 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
-#include <string.h>
+
 
 #define auto __auto_type
 
 void write_ui(){
+  char a;
   
   bool on = true;
 
   while(on){
-    char a = getch();
-    
-    switch (a){
+    a = getch();
+
+    switch(a){
       case 'q':
-        printw("exiting the editor\n");
+        printw("exiting the terminal");
         refresh();
         exit(EXIT_SUCCESS);
         break;
-
+      
       default:
         printw("%c",a);
         refresh();
     }
   }
+
 }
+
 
 int main(){
   initscr();
-  cbreak();
+  raw();
   noecho();
   keypad(stdscr,TRUE);
   
