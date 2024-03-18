@@ -8,7 +8,7 @@ void test();
 void test2();
 
 void write_ui(){
-  char a;
+  int a;
   
   bool on = true;
 
@@ -16,13 +16,18 @@ void write_ui(){
     a = getch();
 
     switch(a){
-      case ':':
+      case 58:
         char t = getch();
-	if(t=='q'){
+	if(t== 113){
         refresh();
         on = false;}
         break;
-      
+
+      case 263:
+	printw("\b \b");
+	refresh();
+	break;
+
       default:
         printw("%c",a);
         refresh();
