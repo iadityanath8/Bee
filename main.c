@@ -5,6 +5,7 @@
 #define auto __auto_type
 
 void test();
+void test2();
 
 void write_ui(){
   char a;
