@@ -16,10 +16,11 @@ void write_ui(){
     a = getch();
 
     switch(a){
-      case 'q':
-        printw("exiting the terminal");
+      case ':':
+        char t = getch();
+	if(t=='q'){
         refresh();
-        on = false;
+        on = false;}
         break;
       
       default:
