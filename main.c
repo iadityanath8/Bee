@@ -4,6 +4,8 @@
 
 #define auto __auto_type
 
+void test();
+
 void write_ui(){
   char a;
   
