@@ -20,35 +20,50 @@ void normal_call(WINDOW *w){
 }
 
 
-void write_ui(WINDOW *down_window){ 
-int a;
-int c = 0;
-bool on = true;
-  while(on){
-    a = getch();
-    switch(a){
+void write_ui(WINDOW *down_window) {
+    int a;
+    bool on = true;
+    int x, y;
 
-      case 27:
-        return;
+    while(on) {
+        a = getch();
+        switch(a) {
+            case 27:
+                on = false;
+                break;
 
-      case 263:
-    	  printw("\b \b");
-				refresh();
-	      break;
+            case KEY_BACKSPACE:
+            case 127:
+            case 8:
+                getyx(stdscr, y, x);
+                if (x == 0) {
+                    if (y > 0) {
+                        move(y - 1, getmaxx(stdscr));
+                        clrtobot();
+                        move(y - 1, getmaxx(stdscr) - 1);
+                        while ((a = inch()) == ' ' && getcurx(stdscr) > 0) {
+                          move(y - 1, getcurx(stdscr) - 1);
+                        }
+                        delch();
+                    }
+                } else {
+                    move(y, x - 1);
+                    delch();
+                }
+                break;
 
-      default:
-				printw("%c",a);
-				refresh();
-        break;
+            default:
+                printw("%c", a);
+                break;
+        }
+        refresh();
     }
 
-    if(c == 0){
-      insert_call(down_window);
-      c = 1;
-    }
-  }
-
+    wclear(down_window);
+    normal_call(down_window);
+    wrefresh(down_window);
 }
+
 
 void control(){
   int x,y;
