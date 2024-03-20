@@ -4,104 +4,83 @@
 #include <string.h>
 
 #define auto __auto_type
-#define ESCAPE 27
-#define ENTER 10
 
 
-void test();
-void test2();
+void insert_call(WINDOW *w){
+    wclear(w);
+    waddstr(w,"---INSERT---");
+    wrefresh(w);
+}
 
-void write_ui(bool* on){
-  int a;
-  char t;
 
-  while(*on){
+void normal_call(WINDOW *w){
+    wclear(w);
+    waddstr(w,"---NORMAL---");
+    wrefresh(w);
+}
+
+
+void write_ui(WINDOW *down_window){ 
+int a;
+int c = 0;
+bool on = true;
+  while(on){
     a = getch();
-
     switch(a){
-      case 58:
-        t = getch();
-	    
-        if(t == 113){
-          refresh();
-          *on = false;
-        }
-        break;
-      
+
+      case 27:
+        return;
+
       case 263:
     	  printw("\b \b");
-	      refresh();
+				refresh();
 	      break;
 
       default:
-        printw("%c",a);
-        refresh();
+				printw("%c",a);
+				refresh();
         break;
+    }
+
+    if(c == 0){
+      insert_call(down_window);
+      c = 1;
     }
   }
 
 }
 
-void normal_mode(){
-  bool on = true;
-  char a = {0};
-  char t = {0};
-  int y;
-
-  while(on){
-    a = getch();
-    
-    switch (a){ 
-      case 'i':
-        write_ui(&on);
-        break;
-      
-      case ':':
-        t = getch();
-        if(t == 'q') on = false;
-        break;
- 
-      default:
-        y = getmaxy(stdscr); 
-        printw("%d\n",y);
-        refresh();
-        break;
-    }
-  }
-}
-
-void mode_switcher(){
+void control(){
   int x,y;
-  char ch = {0};
-  char t = {0};
   bool on = true;
-  int first_time = 0;
   getmaxyx(stdscr,y,x);
-  auto down_window = newwin(3,x,y - 1,0);
-  
-  waddstr(down_window,"---NORMAL---");
+  auto down_window = newwin(3,x,y - 1,0); 
+  normal_call(down_window);
 
   while(on){
-    ch = wgetch(down_window);
-    if(first_time == 0){
-      wclear(down_window);
-      wrefresh(down_window);   // unncessary thing in here 
-    }
-    wprintw(down_window,"%c",ch);
-    wrefresh(down_window);
-    
-    switch(ch){
-      case ':':
-        t = wgetch(down_window);
-        if(t == 'q') on = false;
-        break;
-      case 'i':
-        write_ui(&on);
-        break;
-    }
-  }
-
+  int ch = wgetch(down_window);
+  wclear(down_window);
+  wprintw(down_window,"%c",ch);
   wrefresh(down_window);
+
+   switch(ch){
+      case 105:
+        write_ui(down_window);
+        normal_call(down_window);
+        break;
+
+      case 58:
+        ch = wgetch(down_window);
+	      wprintw(down_window,"%c",ch);
+        if(ch == 113){
+	      ch = wgetch(down_window);
+        if(ch == 10){
+	          on = false;
+            }
+        }
+        break;      
+    }
+}
 }
 
 int main(){
@@ -109,8 +88,7 @@ int main(){
   raw();
   noecho();
   keypad(stdscr,TRUE);
-  
-  mode_switcher();
+  control();
   endwin();
   return 0;
 }
