@@ -14,7 +14,7 @@ This is a simple text editor implemented in C using the NCurses library. It allo
 
 ## Contributon 
 
-- Hello team this is Aditya Lead Scientist of the project just wanted to share learn basic C and ncurses also if you do some research in ncurses upload that file in test folder and contributing to the project will happen in main.c file all the best Hail out company 
+- Hello fiends just wanted to share learn basic C and ncurses also if you do some research in ncurses upload that file in test folder and contributing to the project will happen in main.c file all the best Hail out company 
 
 ## Usage
 - Use linux pc for the project and use following commands to run the project
